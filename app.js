@@ -25,7 +25,7 @@ dotenv.config();
 
 //Database connection
 
-mongoose.connect("mongodb://localhost/authdemonew");
+mongoose.connect("mongodb+srv://bellsehr:bellsehr123@bellsehr.bwuj4eh.mongodb.net/?retryWrites=true&w=majority");
 
 
 app.use(bodyParser.urlencoded({extended:true}));
