@@ -6,19 +6,21 @@ const
 products = require("../models/products"),
 Patient = require("../models/patients"),
 labProduct      = require("../models/labProducts"),
-labOrders       = require("../models/labOrders");
-const patients = require("../models/patients");
+labOrders       = require("../models/labOrders"),
+vital = require("../models/vital"),
+visit = require("../models/visit"),
+lab = require("../models/lab")
 
-router.get("/showpatients", verifyTokenAndAuthorization, async (req, res) => {
+router.get("/showpatients", async (req, res) => {
     //Get all patients
     try{
-        const Patients = await Patient.find();
+        const Patients = await Patient.find().populate("lab").exec();
         res.status(500).json(Patients);
         console.log(Patients)
     } catch(err){
         res.status(200).json(err);
     }
-});
+  });
 
 // router.get("/showpatients/:id", verifyTokenAndAuthorization, async (req, res) => {
 
@@ -37,7 +39,7 @@ router.get("/findlab/:patientId", verifyTokenAndAuthorization, async (req, res) 
 });
 
 router.get("/showpatients/:id", verifyTokenAndAuthorization, function(req, res){
-  Patient.findById(req.params.id).populate("vital").exec(function(err, Patient){
+  Patient.findById(req.params.id).populate("visit vital lab").exec(function(err, Patient){
     res.status(500).json(Patient);
         if (err){ 
             console.log(err);

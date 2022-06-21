@@ -10,4 +10,4 @@ const labSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("lab", labSchema);
+module.exports = mongoose.model("Lab", labSchema);

@@ -16,17 +16,18 @@ router.get("/nurse/:id", function(req, res){
 })
 });
 //create lab result
-router.post("/visit/:id", function(req, res){
+//check this route for that lab validation error
+router.post("/lab/:id", function(req, res){
     Patient.findById(req.params.id, function(err, patient){
         if (err){
             console.log(err);
         } else {
-            lab.create(req.body.lab, function(err, lab){
+            lab.create(req.body, function(err, lab){
                 if (err){
                     console.log(err)
                 } else {
-                    patient.lab.push(lab);
                     patient.save();
+                    patient.lab.push(lab);
                     res.status(500).json(lab)
                 }
             })
@@ -41,13 +42,13 @@ router.post("/visit/:id", function(req, res){
             console.log(err);
             res.status(200).json("redirect to index");
         } else {
-            visit.create(req.body.visit, function(err, visit){
+            visit.create(req.body, function(err, visit){
                 if (err){
                     console.log(err);
                 }   else 
                 {
-                   patient.visit.push(visit);
-                   patient.save();
+                    patient.save();
+                    patient.visit.push(visit);
                    res.status(500).json(visit);
                   
                 }
@@ -57,17 +58,17 @@ router.post("/visit/:id", function(req, res){
     });
 });
 //create a vital
-router.post("/visit/:id", function(req, res){
+router.post("/vital/:id", function(req, res){
     Patient.findById(req.params.id, function(err, patient){
         if (err){
             console.log(err);
         } else {
-            vital.create(req.body.vital, function(err, vital){
+            vital.create(req.body, function(err, vital){
                 if (err){
                     console.log(err)
                 } else {
-                    patient.vital.push(vital);
                     patient.save();
+                    patient.vital.push(vital);
                     res.status(500).json(vital)
                 }
             })
@@ -78,7 +79,7 @@ router.post("/visit/:id", function(req, res){
 
 
 router.get("/visit/:id", function(req, res){ 
-    Patient.findById(req.params.id).populate("visit", "vital", "lab").exec(function(err, patient){
+    Patient.findById(req.params.id).populate("visit vital lab").exec(function(err, patient){
         res.status(500).json(patient);
         if(err){
             console.log(err);}
