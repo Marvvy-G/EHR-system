@@ -14,7 +14,7 @@ lab = require("../models/lab")
 router.get("/showpatients", async (req, res) => {
     //Get all patients
     try{
-        const Patients = await Patient.find().populate("lab").exec();
+        const Patients = await Patient.find().populate("visit vital lab").exec();
         res.status(500).json(Patients);
         console.log(Patients)
     } catch(err){
