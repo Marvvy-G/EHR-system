@@ -24,8 +24,8 @@ dotenv     = require("dotenv")
 dotenv.config(); 
 
 //Database connection
-
-mongoose.connect("mongodb://localhost/authdemonew");
+//change database and deploy
+mongoose.connect("mongodb+srv://bellsehr:password1234@bellsehr.bwuj4eh.mongodb.net/?retryWrites=true&w=majority");
 
 
 app.use(bodyParser.urlencoded({extended:true}));
