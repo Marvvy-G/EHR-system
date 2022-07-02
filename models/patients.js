@@ -3,6 +3,12 @@ const Lab = require("./lab");
 const Vital = require("./vital")
 const Visit = require("./visit");
 
+const medicationSchema = new mongoose.Schema({
+    name: { type: mongoose.Schema.ObjectId, ref: 'Product' },
+    nurse: { type: mongoose.Schema.ObjectId, ref: 'User' },
+    miscText: { type: String }
+}, { timestamps: true })
+
 const patientSchema = new mongoose.Schema({
     photo: String,
     name: String,
@@ -10,11 +16,12 @@ const patientSchema = new mongoose.Schema({
     age: Number,
     address: String,
     number: Number,
-    lastvisit: String, 
+    lastvisit: String,
     gender: String,
     bloodgroup: String,
-    genotype : String,
-    underlyingillness : String,
+    genotype: String,
+    underlyingillness: String,
+    medications: [medicationSchema],
     password: {
         type: String,
         required: true,
@@ -37,8 +44,8 @@ const patientSchema = new mongoose.Schema({
             ref: "Lab"
         }
     ],
-  
-},  { timestamps: true}
+
+}, { timestamps: true }
 );
 
 module.exports = mongoose.model("Patients", patientSchema);

@@ -4,41 +4,45 @@ const mongoose = require("mongoose");
 
 
 const OrderSchema = new mongoose.Schema({
-    amount:{
+    amount: {
         type: Number,
         require: true
     },
     userId: {
         type: String,
-        required: true, 
-        unique:true
+        required: true,
+        unique: true
     },
-    patientId:{
+    patientId: {
         type: String,
         required: true
     },
-    products:[ 
+    products: [
         {
-       productId: {
-           type: String
-        },
-       quantity:{
-           type: Number,
-      },
-    dosage_type: {
-        type: String,
-        required: true, 
-    },
-    dose_quantity: {
-        type: String,
-        require: true
-    }
-    }
-],
-status: {type: String, default: "pending"}
+            productId: {
+                type: String
+            },
+            quantity: {
+                type: Number,
+            },
+            dosage_type: {
+                type: String,
+                required: true,
+            },
+            dose_quantity: {
+                type: String,
+                require: true
+            },
+            prescription: {
+                type: String,
+                required: true,
+            }
+        }
+    ],
+    status: { type: String, default: "pending" }
 },
-{
-    timestamp: true 
-});
+    {
+        timestamp: true
+    });
 
 module.exports = mongoose.model("Order", OrderSchema) 
