@@ -5,12 +5,7 @@ const {
 } = require('../middlewares/verifyToken');
 
 const products = require('../models/products'),
-	Patient = require('../models/patients'),
-	labProduct = require('../models/labProducts'),
-	labOrders = require('../models/labOrders'),
-	vital = require('../models/vital'),
-	visit = require('../models/visit'),
-	lab = require('../models/lab');
+	Patient = require('../models/patients');
 
 router.get('/showpatients', async (req, res) => {
 	//Get all patients
@@ -39,36 +34,14 @@ router.get('/findlab/:patientId', verifyToken, async (req, res) => {
 	}
 });
 
-router.get('/showpatients/:id', verifyToken, function (req, res) {
-	Patient.findById(req.params.id)
-		.populate('visit vital lab')
-		.exec(function (err, Patient) {
-			res.status(500).json(Patient);
-			if (err) {
-				console.log(err);
-			} else {
-				products.find({}, (err, products) => {
-					console.log(products);
-					if (err) {
-						res.status(200).json(err);
-					} else {
-						labProduct.find({}, (err, labProduct) => {
-							console.log(labProduct);
-							if (err) {
-								console.log(err);
-							} else {
-								labOrders.find({}, (err, labOrders) => {
-									console.log(labOrders);
-									if (err) {
-										console.log(err);
-									}
-								});
-							}
-						});
-					}
-				});
-			}
-		});
+router.get('/showpatients/:id', verifyToken, async function (req, res) {
+	const patient = await Patient.findById(req.params.id).populate(
+		'visit vital lab'
+	);
+	return res.status(200).json({
+		status: true,
+		data: patient,
+	});
 });
 
 module.exports = router;
